@@ -1,3 +1,7 @@
+# Golang
+
+https://golang.org/dl/
+
 # WARNING
 Before using this tool, please save your pictures first. I don't want to be held responsible for any accident...
 
