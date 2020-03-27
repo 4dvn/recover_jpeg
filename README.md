@@ -9,7 +9,7 @@ It works by extracting the valid data (from 0xFFDA Start Of Scan) from the corru
 You'll have to provide models pictures files taken with the same camera with different resolutions, orientations and quality settings.
 
 # How to use
-Create a folder **\_\_models\_\_** asside the executable and fill it with the model files. Name them carefully because the model name is appended to the recovered picture (ex. s7-1080-paysage.jpg).
+Create a folder **OK** asside the executable and fill it with the model files. Name them carefully because the model name is appended to the recovered picture (ex.*.jpg).
 
 Then, just drag the corrupted file on the executable. It will try to reconstruct jpeg files with all the models provided. There will be many invalid files asside the corrupted picture, but hopefully there will be one valid file.
 
@@ -23,6 +23,6 @@ What does this tool is extract the SOS data of a corrupted picture, append it th
 # Why I did this tool
 I'm a victim of a ransomware attack! All my personal pics were gone!
 
-But when I saw that only the first 10kb of each file is encrypted, I was sure there will be a mean to recover my pictures, and indeed there was!
+But when I saw that only the first 150kb of each file is encrypted, I was sure there will be a mean to recover my pictures, and indeed there was!
 
-This is why, when no SOS marker is found in the encrypted file, this tool extracts all but the first 10kb and tries to rebuild a valid SOS marker bloc. In this case, you will be prompted to enter a value for 'padding'; this will be amount of 0x00 bytes prepended to the recovered data.
+This is why, when no SOS marker is found in the encrypted file, this tool extracts all but the first 150kb and tries to rebuild a valid SOS marker block. In this case, you will be prompted to enter a value for 'padding'; this will be amount of 0x00 bytes prepended to the recovered data.
