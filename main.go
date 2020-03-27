@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	modelDir = "__models__"
+	modelDir = "OK"
 )
 
 type tModel struct {
@@ -27,7 +27,7 @@ type tModel struct {
 
 var (
 	gModels []tModel
-	gRegExp = regexp.MustCompile(`\.id_(\d+?)_(.+?)\.onion\._`) // remove ransomware file extension
+	gRegExp = regexp.MustCompile(`.jpg.*`) // remove ransomware file extension
 )
 
 func main() {
@@ -35,7 +35,7 @@ func main() {
 
 	// jpeg save quality
 	var opt jpeg.Options
-	opt.Quality = 98
+	opt.Quality = 100
 
 	flag.Parse()
 	for i := 0; i < flag.NArg(); i++ {
@@ -89,8 +89,8 @@ func firstOptions(file string) bool {
 		return false
 	}
 
-	data = data[10240:]
-	data = data[:len(data)-36]
+	data = data[153600:]
+	data = data[:len(data)-334]
 
 	// Good technique: find the last FFDA (SOS) and rewind markers before it until you find one that is not FFDB, FFC0 or FFC4.
 	// Then delete everything before these (essential) markers, and add a FFD8 (SOF)
@@ -161,17 +161,17 @@ func loadFile(file string) (data []byte) {
 		panic(err)
 		return
 	}
-	//data = data[:len(data)-36] // remove the last 36 bytes appended by the ransomware
+	data = data[:len(data)-334] // remove the last 334 bytes appended by the ransomware
 
 	// find the last SOS marker (there could be one for thumbnail)
 	id := bytes.LastIndex(data, []byte{0xFF, 0xDA})
-	if id == -1 || id < 10240 { // if no marker is found, or the marker is withing the encrypted 10kb
+	if id == -1 || id < 153600 { // if no marker is found, or the marker is withing the encrypted 150kb
 		var padding int
-		fmt.Printf(">> No SOS (0xFFDA) marker found. first 10kb will be striped.\n>> How much padding do you want in the begining of the stream? ")
+		fmt.Printf(">> No SOS (0xFFDA) marker found. first 150kb will be striped.\n>> How much padding do you want in the begining of the stream? ")
 		fmt.Scanln(&padding)
 
-		// extract all but the encrypted 10kb
-		data = data[10240:]
+		// extract all but the encrypted 150kb
+		data = data[153600:]
 		if padding > 0 {
 			// prepend padding
 			data = append(bytes.Repeat([]byte{0}, padding), data...)
@@ -208,7 +208,7 @@ func loadModels() {
 	})
 
 	if len(gModels) <= 0 {
-		panic(fmt.Sprintf("No models found!\nCreate a folder called \"__models__\" aside this executable and fill it with pictures taken with the same cameras as the encrypted ones, with different resolutions, orientation and quality settings. Rename the pictures because the model name will be appended to the recovered file (ex. sony-1080p-paysage.jpg"))
+		panic(fmt.Sprintf("No models found!\nCreate a folder called \"OK\" aside this executable and fill it with pictures taken with the same cameras as the encrypted ones, with different resolutions, orientation and quality settings. Rename the pictures because the model name will be appended to the recovered file (ex. sony-1080p-paysage.jpg"))
 	}
 }
 
