@@ -89,7 +89,7 @@ func firstOptions(file string) bool {
 		return false
 	}
 
-	data = data[153600:]
+	data = data[153604:]
 	data = data[:len(data)-334]
 
 	// Good technique: find the last FFDA (SOS) and rewind markers before it until you find one that is not FFDB, FFC0 or FFC4.
@@ -165,13 +165,13 @@ func loadFile(file string) (data []byte) {
 
 	// find the last SOS marker (there could be one for thumbnail)
 	id := bytes.LastIndex(data, []byte{0xFF, 0xDA})
-	if id == -1 || id < 153600 { // if no marker is found, or the marker is withing the encrypted 150kb
+	if id == -1 || id < 153604 { // if no marker is found, or the marker is withing the encrypted 150kb
 		var padding int
 		fmt.Printf(">> No SOS (0xFFDA) marker found. first 150kb will be striped.\n>> How much padding do you want in the begining of the stream? ")
 		fmt.Scanln(&padding)
 
 		// extract all but the encrypted 150kb
-		data = data[153600:]
+		data = data[153604:]
 		if padding > 0 {
 			// prepend padding
 			data = append(bytes.Repeat([]byte{0}, padding), data...)
